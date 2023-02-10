@@ -11,6 +11,7 @@
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-puzzle-piece"></i><a href="{{ route('students.index') }}">All Students</a></li>
                         <li><i class="fa fa-id-badge"></i><a href="{{ route('students.create') }}">Add Student</a></li>
+                        <li><i class="fa fa-id-badge"></i><a href="{{ route('students.archive') }}">Archive</a></li>
                     </ul>
                 </li>
             </ul>

@@ -47,6 +47,10 @@
                         </div>
                     </div>
                     <div class="row form-group">
+                        <div class="col col-md-3"><label for="image" class=" form-control-label">image</label></div>
+                        <div class="col-12 col-md-9"><input type="file" id="image" name="image" class="form-control"></div>
+                    </div>
+                    <div class="row form-group">
                         <div class="col col-md-3"><label for="select" class=" form-control-label">Department</label></div>
                         <div class="col-12 col-md-9">
                             <select name="department" id="select" class="form-control">

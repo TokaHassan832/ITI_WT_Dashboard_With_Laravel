@@ -28,7 +28,8 @@ class StudentRequest extends FormRequest
             'name'=>'required|max:50|alpha',
             'email'=>'required|unique:students|max:255|email',
             'phone'=>'required|digits:11|unique:students',
-            'department'=>'integer|max:255|min:1'
+            'department'=>'integer|max:255|min:1',
+            'image'=>'image|mimes:png,jpg'
         ];
     }
 }

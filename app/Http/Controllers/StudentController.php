@@ -39,12 +39,18 @@ class StudentController extends Controller
      */
     public function store(StudentRequest $request)
     {
+        $img=$request->file('image');
+        $ext=$img->getClientOriginalExtension();
+        $image_name="student$request->id.$ext";
+        $img->move(public_path('images/students'),$image_name);
+
         Student::create([
             'id'=>$request->id,
             'name'=>$request->name,
             'email'=>$request->email,
             'phone'=>$request->phone,
-            'department_id'=>$request->department
+            'department_id'=>$request->department,
+            'image'=>$image_name
         ]);
         return redirect()->back()->with('msg','added successfully..');
     }
@@ -83,7 +89,7 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StudentRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $student=Student::findorfail($id);
         $student->update([
@@ -93,7 +99,7 @@ class StudentController extends Controller
             'phone'=>$request->phone,
             'department_id'=>$request->department
         ]);
-        return redirect()->route('students.index')->with('msg','updated successfully..');
+        return redirect(route('students.index'))->with('msg','updated successfully..');
     }
 
     /**
@@ -104,6 +110,25 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $student=Student::findorfail($id);
+        $student->delete();
+        return redirect(route('students.index'))->with('msg','deleted successfully..');
+    }
+
+    public function archive(){
+        $students=Student::onlyTrashed()->get();
+        return view('admin.students.archive',['students'=>$students]);
+    }
+
+    public function restore($id){
+        $student=Student::withTrashed()->findOrFail($id);
+        $student->restore();
+        return redirect(route('students.index'))->with('msg','restored successfully..');
+    }
+
+    public function forceDestroy($id){
+        $student=Student::withTrashed()->findOrFail($id);
+        $student->forceDelete();
+        return redirect(route('students.archive'))->with('msg','deleted successfully..');
     }
 }
