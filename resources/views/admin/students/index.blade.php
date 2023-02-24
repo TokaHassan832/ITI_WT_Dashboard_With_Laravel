@@ -57,7 +57,7 @@
                                     <td>{{$student->name}}</td>
                                     <td>{{$student->email}}</td>
                                     <td>{{$student->phone}}</td>
-                                    <td>{{$student->department_id}}</td>
+                                    <td>{{$student->department->name}}</td>
                                     <td>
                                         <a href="{{route('students.show',$student->id)}}" style="color:lightblue">show</a>
                                         <a href="{{route('students.edit',$student->id)}}" style="color:lightgreen">edit</a>

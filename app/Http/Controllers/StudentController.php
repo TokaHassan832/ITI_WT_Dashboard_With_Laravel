@@ -6,6 +6,7 @@ use App\Http\Requests\StudentRequest;
 use App\Models\Department;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
@@ -92,13 +93,15 @@ class StudentController extends Controller
     public function update(Request $request, $id)
     {
         $student=Student::findorfail($id);
-        $student->update([
-            'id'=>$request->id,
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'phone'=>$request->phone,
-            'department_id'=>$request->department
+        $attributes= $request->validate([
+            'id'=>['required','integer',Rule::unique('students','id')->ignore($student)],
+            'name'=>['required','max:50','alpha'],
+            'email'=>['required','max:255','email',Rule::unique('students','email')->ignore($student)],
+            'phone'=>['required','digits:11',Rule::unique('students', 'phone')->ignore($student)],
+            'department'=>['required', Rule::exists('departments', 'id')]
         ]);
+
+        $student->update($attributes);
         return redirect(route('students.index'))->with('msg','updated successfully..');
     }
 
@@ -129,6 +132,6 @@ class StudentController extends Controller
     public function forceDestroy($id){
         $student=Student::withTrashed()->findOrFail($id);
         $student->forceDelete();
-        return redirect(route('students.archive'))->with('msg','deleted successfully..');
+        return redirect(route('students.index'))->with('msg','student permanently deleted successfully..');
     }
 }

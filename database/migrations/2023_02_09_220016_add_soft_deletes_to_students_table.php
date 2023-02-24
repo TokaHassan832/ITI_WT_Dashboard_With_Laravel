@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('students', function (Blueprint $table) {
-            $table->timestamp('deleted_at')->after('department_id');
+            $table->timestamp('deleted_at')->after('department_id')->nullable()->default(null);
         });
     }
 
