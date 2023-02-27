@@ -20,6 +20,8 @@ return new class extends Migration
             $table->char('phone',11)->unique();
             $table->tinyInteger('department_id')->unsigned();
             $table->foreign('department_id')->references('id')->on('departments');
+            $table->string('image')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
